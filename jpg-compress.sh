@@ -4,7 +4,11 @@
 # Compress jpg files
 #
 # Angelito M. Goulart
-# www.angelitomg.com 
+# www.angelitomg.com
+#
+# Modified by racquad
+# racquad@gmail.com
+# Find all JPEG files (case insensitive) recursively from $path
 #
 #############################
 
@@ -62,15 +66,15 @@ else
 	#############################
 	# Convert all files of a dir
 	#############################
-	count="$(ls -1 $path/*.jpg 2> /dev/null | wc -l)"
+	count="$(cd $path && find . -type f -iname *.jpg 2> /dev/null | wc -l)"
 	if [ $count -lt 1 ]
 	then
 		echo "Directory $path has no jpg files."
 		exit 1
 	fi
-	for f in $path/*.jpg
+	for f in `cd $path && find . -type f -iname *.jpg`
 	do
-		compress_jpg $f $quality
+		compress_jpg $path/$f $quality
 	done
 
 fi
